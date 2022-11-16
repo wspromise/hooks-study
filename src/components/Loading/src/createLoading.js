@@ -1,5 +1,5 @@
 import { createVNode, defineComponent, h, reactive, render } from 'vue';
-import Loading from './loading.vue';
+import Loading from './Loading.vue';
 
 export function createLoading(props, target, wait = false) {
   // loading的虚拟节点

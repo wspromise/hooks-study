@@ -26,7 +26,6 @@ const loadingDirective = {
     );
     el.instance = instance;
   },
-
   // 在绑定元素的父组件
   // 及他自己的所有子节点都更新后调用
   updated(el, binding) {
@@ -43,6 +42,7 @@ const loadingDirective = {
     el?.instance?.close();
   },
 };
+
 export function setupLoadingDirective(app) {
   app.directive('loading', loadingDirective);
 }

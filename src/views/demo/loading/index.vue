@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, toRefs } from 'vue';
+import { defineComponent, ref, reactive, toRefs, h, createVNode } from 'vue';
 import { Loading, useLoading } from '@/components/Loading';
 
 export default defineComponent({
@@ -58,13 +58,15 @@ export default defineComponent({
       tip: '加载中...',
     });
     const [openFullLoading, closeFullLoading] = useLoading({
-      tip: '加载中...',
+      //   tip: '加载中...',
+      tip: createVNode('div', undefined, '3333333'),
     });
 
     const [openWrapLoading, closeWrapLoading] = useLoading({
       target: wrapEl,
       props: {
-        tip: '加载中...',
+        // tip: '加载中...',
+        tip: createVNode('div', undefined, '2222222222'),
         absolute: true,
       },
     });

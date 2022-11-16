@@ -1,64 +1,66 @@
-import { defineComponent, createVNode, render, reactive, h } from 'vue';
-import Loading from './Loading.vue';
+import { createVNode, defineComponent, h, reactive, render } from 'vue';
+import Loading from './loading.vue';
 
 export function createLoading(props, target, wait = false) {
-  //  loading的实例
+  // loading的虚拟节点
   let vm = null;
 
-  const data = reactive({
-    tips: '', // 当作为包裹元素时，自定义描述文案
+  let data = reactive({
+    tip: '', // 当作为包裹元素时，自定义描述文案
     loading: true, // 是否loading
     ...props,
   });
 
   // loading的包裹容器
-  const LoadingWrap = defineComponent({
+  const loadingWrap = defineComponent({
     render() {
       return h(Loading, { ...data });
     },
   });
+  // 创建虚拟节点
+  vm = createVNode(loadingWrap);
 
-  // 创建loading实例
-  vm = createVNode(LoadingWrap);
-
-  // 是否异步
   if (wait) {
-    // useLoading方法导致onMounted无法async
+    // 解决useLoading在onMounted时无法async的bug
     setTimeout(() => {
-      // 到这一步才渲染出loading的el
       render(vm, document.createElement('div'));
     }, 0);
   } else {
     render(vm, document.createElement('div'));
   }
-
-  // 函数式-关闭loading
-  function close() {
-    if (vm?.el && vm.el.parentNode) {
-      vm.el.parentNode.removeChild(vm.el);
-    }
-  }
-
-  // 函数式-打开loading
-  function open(target = document.body) {
+  // 打开loading
+  const open = (target = document.body) => {
     if (!vm || !vm.el) return;
     target.appendChild(vm.el);
-  }
+  };
 
-  // 如果指定容器则直接挂载
+  // 关闭loading
+  const close = () => {
+    if (!vm || !vm.el) return;
+    vm.el.remove();
+  };
+
+  // 如果指定挂载容器，则直接打开loading
   target && open(target);
 
   return {
     vm,
-    close,
     open,
-    setTip: tip => (data.tip = tip),
-    setLoading: loading => (data.loading = loading),
+    close,
+    setTip(tip) {
+      data.tip = tip;
+    },
+    get tip() {
+      return data.tip;
+    },
+    setLoading(loading) {
+      data.loading = loading;
+    },
     get loading() {
       return data.loading;
     },
     get $el() {
-      return vm?.el;
+      return vm.el;
     },
   };
 }

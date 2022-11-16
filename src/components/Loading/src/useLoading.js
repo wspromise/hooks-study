@@ -3,33 +3,40 @@ import { createLoading } from './createLoading';
 
 export function useLoading(opt) {
   let props;
-  // 要挂载的目标元素
+  // 要挂载的容器
   let target = document.body;
 
-  if (Reflect.has(opt, 'target') || Reflect.has(opt, 'props')) {
-    // 初始化数据
-    const options = opt;
-    props = options.props || {};
-    target = options.target || document.body;
+  if (Reflect.has(opt, 'props') || Reflect.has(opt, 'target')) {
+    props = opt.props || {};
+    target = opt.target || document.body;
   } else {
     props = opt;
   }
-  // 创建loading实例
+
+  // 创建loading
   const instance = createLoading(props, undefined, true);
+
   // 打开loading
   const open = () => {
-    const t = unref(target);
+    let t = unref(target);
     if (!t) return;
     instance.open(t);
   };
+
   // 关闭loading
   const close = () => {
     instance.close();
   };
+
   // 设置描述信息
   const setTip = tip => {
     instance.setTip(tip);
   };
 
-  return [open, close, setTip];
+  // 设置loading
+  const setLoading = loading => {
+    instance.setLoading(loading);
+  };
+
+  return [open, close, setTip, setLoading];
 }

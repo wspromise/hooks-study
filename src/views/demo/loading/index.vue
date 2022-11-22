@@ -7,7 +7,11 @@
   >
     <div class="loading-inner" ref="wrapEl">
       <a-alert message="组件方式" />
-      <a-button class="my-4 mr-4" type="primary" @click="openCompFullLoading">
+      <a-button
+        class="my-4 mr-4 ws-btn"
+        type="primary"
+        @click="openCompFullLoading"
+      >
         全屏 Loading
       </a-button>
 
@@ -131,6 +135,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@namespace: ws;
+@prefix-cls: ~'@{namespace}-btn';
+
 .loading-inner {
   position: relative;
   margin: 0 auto;
@@ -139,5 +146,37 @@ export default defineComponent({
   .my-4 {
     margin: 0 10px;
   }
+}
+
+// .ws-btn {
+//   // 命名空间：类似代码封装，将混合封装到一个模块，使用的时候点出来就行
+//   #boundle() {
+//     // mixins  @sh是变量 默认值是冒号后面的 ~是转义让其原样输出
+//     .boxshow(@sh: ~'0 0 1px #000') {
+//       box-shadow: @sh;
+//     }
+
+//     .boxrad(@rad:10px) {
+//       border-radius: @rad;
+//     }
+//   }
+
+//   width: 100px;
+//   height: 30px;
+//   #boundle.boxshow(~'3px 5px 10px #000');
+// }
+
+//  命名空间 + 规则集 + 混入
+#boun() {
+  primary: 'green';
+  danger: red;
+  .boxrad(@rad:10px) {
+    border-radius: @rad;
+  }
+}
+
+.@{prefix-cls} {
+  background-color: #boun[danger];
+  #boun.boxrad(80px);
 }
 </style>

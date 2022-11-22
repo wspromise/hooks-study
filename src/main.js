@@ -4,6 +4,7 @@ import App from './App';
 import 'ant-design-vue/dist/antd.css';
 import router from './router';
 import { setupGlobDirectives } from '@/directives';
+import { setupI18n } from './i18n';
 
 async function bootstrap() {
   const app = createApp(App);
@@ -27,7 +28,7 @@ async function bootstrap() {
   // 多语言配置
   // Asynchronous case: language files may be obtained from the server side
   // 异步案例：语言文件可能从服务器端获取
-  //   await setupI18n(app);
+  await setupI18n(app);
 
   // Configure routing
   // 配置路由

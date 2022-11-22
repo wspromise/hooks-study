@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    redirect: '/loading',
+    redirect: '/modal',
   },
   {
     path: '/loading',
@@ -12,6 +12,14 @@ const routes = [
       titleName: 'router.loading',
     },
     component: () => import('../views/demo/loading/index.vue'),
+  },
+  {
+    path: '/modal',
+    name: 'Modal',
+    meta: {
+      titleName: 'router.modal',
+    },
+    component: () => import('../views/demo/modal/index.vue'),
   },
 ];
 // process.env.BASE_URL

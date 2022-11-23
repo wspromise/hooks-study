@@ -5,6 +5,7 @@
       :class="`${prefixCls}-help`"
       v-if="helpMessage"
       :text="helpMessage"
+      v-bind="helpProps"
     />
   </span>
 </template>
@@ -14,7 +15,7 @@ import BasicHelp from './BasicHelp.vue';
 
 const props = defineProps({
   /**
-   * Help text list or string
+   * 帮助文本或列表
    * @default: ''
    */
   helpMessage: {
@@ -22,15 +23,17 @@ const props = defineProps({
     default: '',
   },
   /**
-   * Whether the color block on the left side of the title
+   * 标题左侧是否显示色块
    * @default: false
    */
-  span: { type: Boolean },
+  span: { type: Boolean, default: false },
   /**
-   * Whether to default the text, that is, not bold
+   * 是否默认文本，即不加粗
    * @default: false
    */
-  normal: { type: Boolean },
+  normal: { type: Boolean, default: false },
+  // 帮助组件props
+  helpProps: { type: Object },
 });
 
 const prefixCls = 'ws-basic-title';

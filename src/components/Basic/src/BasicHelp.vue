@@ -4,59 +4,49 @@ import { Tooltip } from 'ant-design-vue';
 import { InfoCircleOutlined } from '@ant-design/icons-vue';
 import { getPopupContainer, isString, isArray } from '@/utils';
 import { getSlot } from '@/utils/helper/tsxHelper';
-
-const props = {
-  /**
-   * Help text max-width
-   * @default: 600px
-   */
-  maxWidth: { type: String, default: '600px' },
-  /**
-   * Whether to display the serial number
-   * @default: false
-   */
-  showIndex: { type: Boolean },
-  /**
-   * Help text font color
-   * @default: #ffffff
-   */
-  color: { type: String, default: '#ffffff' },
-  /**
-   * Help text font size
-   * @default: 14px
-   */
-  fontSize: { type: String, default: '14px' },
-  /**
-   * Help text list
-   */
-  placement: { type: String, default: 'right' },
-  /**
-   * Help text list
-   */
-  text: { type: [Array, String] },
-};
+import { basicHelpProps, TooltipProps } from './props.js';
 
 export default defineComponent({
   name: 'BasicHelp',
   components: { Tooltip },
-  props,
+  props: basicHelpProps,
   setup(props, { slots }) {
+    // 类名
     const prefixCls = 'ws-basic-help';
 
+    // 获取文字提示的样式
     const getTooltipStyle = computed(() => ({
       color: props.color,
       fontSize: props.fontSize,
     }));
 
+    // 计算文字提示组件props
+    const computedTooltipProps = computed(() => {
+      let attrMap = {};
+      for (const key in TooltipProps) {
+        if (Object.hasOwnProperty.call(TooltipProps, key)) {
+          attrMap[key] = props[key];
+        }
+      }
+
+      return attrMap;
+    });
+    console.log(computedTooltipProps, 123);
+
+    // 获取卡片样式
     const getOverlayStyle = computed(() => ({ maxWidth: props.maxWidth }));
 
+    // 渲染标题
     function renderTitle() {
+      // 获取文本或者文本列表
       const textList = props.text;
 
       if (isString(textList)) {
+        // 文本
         return <p>{textList}</p>;
       }
 
+      // 文本列表
       if (isArray(textList)) {
         return textList.map((text, index) => {
           return (
@@ -75,9 +65,9 @@ export default defineComponent({
     return () => {
       return (
         <Tooltip
+          {...computedTooltipProps.value}
           overlayClassName={`${prefixCls}__wrap`}
           title={<div style={unref(getTooltipStyle)}>{renderTitle()}</div>}
-          autoAdjustOverflow={true}
           overlayStyle={unref(getOverlayStyle)}
           placement={props.placement}
           getPopupContainer={() => getPopupContainer()}

@@ -1,5 +1,11 @@
 <template>
-  <BasicTitle :helpMessage="helpMessage">
+  <BasicTitle
+    :helpMessage="helpMessage"
+    :span="span"
+    :normal="normal"
+    :helpProps="helpProps"
+    @dblclick="handleDblclick"
+  >
     {{ title }}
   </BasicTitle>
 </template>
@@ -15,7 +21,17 @@ export default defineComponent({
       type: [String, Array],
     },
     title: { type: String },
+    span: { type: Boolean },
+    normal: { type: Boolean },
+    // 帮助组件props
+    helpProps: { type: Object },
   },
   emits: ['dblclick'],
+  setup(props, { emit }) {
+    const handleDblclick = e => {
+      emit('dblclick', e);
+    };
+    return { handleDblclick };
+  },
 });
 </script>

@@ -1,16 +1,25 @@
 import { cloneDeep } from 'lodash-es';
 /**
- * @description:  Set ui mount node
+ * @description: 设置挂载的节点
  */
 export function getPopupContainer(node) {
   return node?.parentNode ?? document.body;
 }
 
+/**
+ * 为组件挂载install方法
+ * @param {*} component 组件
+ * @param {*} alias 组件别名
+ * @returns
+ */
 export const withInstall = (component, alias) => {
   const comp = component;
   comp.install = app => {
+    // 注册为全局组件
     app.component(comp.name || comp.displayName, component);
+    // 是否存在别名
     if (alias) {
+      // 对 Vue 2 中 Vue.prototype 使用方式的一种替代，挂载到全局，无需引入，任意组件模板上都可用，并且也可以通过任意组件实例的 this 访问到
       app.config.globalProperties[alias] = component;
     }
   };

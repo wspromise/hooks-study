@@ -6,6 +6,7 @@
     title="Modal Title"
     :helpMessage="['提示1', '提示2']"
     :closeFunc="closeModal"
+    :helpProps="{ showIndex: true }"
     @visible-change="handleShow"
   >
     <template #insertFooter>

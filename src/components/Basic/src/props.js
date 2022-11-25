@@ -8,9 +8,7 @@ export const TooltipProps = {
   // 气泡被遮挡时自动调整位置
   autoAdjustOverflow: { type: Boolean, default: true },
   // 背景颜色
-  //   color: { type: String },
-  // 默认是否显隐
-  //   defaultVisible: { type: Boolean, default: false },
+  color: { type: String },
   // 隐藏后是否销毁 tooltip
   destroyTooltipOnHide: { type: Boolean, default: false },
   // 浮层渲染父节点，默认渲染到 body 上
@@ -27,8 +25,12 @@ export const TooltipProps = {
   placement: { type: String, default: 'top' },
   // 触发行为，可选 hover/focus/click/contextmenu
   trigger: { type: String, default: 'hover' },
+  // 是否手动控制浮层显隐------自定义的
+  isManualControl: { type: Boolean, default: false },
   // 用于手动控制浮层显隐
-  //   visible: { type: Boolean, default: false },
+  visible: { type: Boolean },
+  // 显示隐藏的回调
+  onVisibleChange: { type: Function },
 };
 
 export const basicHelpProps = Object.assign({}, TooltipProps, {
@@ -46,7 +48,7 @@ export const basicHelpProps = Object.assign({}, TooltipProps, {
    * 帮助文本字体颜色
    * @default: #fff
    */
-  color: { type: String, default: '#fff' },
+  fontColor: { type: String, default: '#fff' },
   /**
    * 帮助文本字体大小
    * @default: 14px

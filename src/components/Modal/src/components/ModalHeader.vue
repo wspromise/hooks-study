@@ -1,12 +1,15 @@
 <template>
   <BasicTitle
-    :helpMessage="helpMessage"
     :span="span"
     :normal="normal"
+    :helpMessage="helpMessage"
     :helpProps="helpProps"
     @dblclick="handleDblclick"
   >
     {{ title }}
+    <template #help-icon>
+      <slot name="help-icon"></slot>
+    </template>
   </BasicTitle>
 </template>
 <script>
@@ -23,7 +26,7 @@ export default defineComponent({
     title: { type: String },
     span: { type: Boolean },
     normal: { type: Boolean },
-    // 帮助组件props
+    // 帮助组件props,相当于basicHelpProps
     helpProps: { type: Object },
   },
   emits: ['dblclick'],

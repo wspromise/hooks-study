@@ -23,15 +23,24 @@ export default defineComponent({
     // 计算文字提示组件props
     const computedTooltipProps = computed(() => {
       let attrMap = {};
+      let { isManualControl, visible, onVisibleChange } = props;
       for (const key in TooltipProps) {
         if (Object.hasOwnProperty.call(TooltipProps, key)) {
           attrMap[key] = props[key];
         }
       }
 
+      if (isManualControl) {
+        Object.assign(attrMap, {
+          visible,
+          onVisibleChange,
+        });
+      } else {
+        delete attrMap.visible;
+        delete attrMap.onVisibleChange;
+      }
       return attrMap;
     });
-    console.log(computedTooltipProps, 123);
 
     // 获取卡片样式
     const getOverlayStyle = computed(() => ({ maxWidth: props.maxWidth }));

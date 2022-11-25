@@ -48,7 +48,12 @@ export function isObject(val) {
   return is(val, 'Object');
 }
 
-// 深度合并
+/**
+ * 深度合并
+ * @param {*} src 源对象
+ * @param {*} target 目标对象
+ * @returns
+ */
 export function deepMerge(src = {}, target = {}) {
   let key;
   const res = cloneDeep(src);

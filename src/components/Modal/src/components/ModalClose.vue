@@ -1,6 +1,7 @@
 <template>
   <div :class="computedClass">
     <template v-if="canFullscreen">
+      <!-- 全屏状态 -->
       <Tooltip
         v-if="fullScreen"
         :title="t('component.modal.restore')"
@@ -9,6 +10,7 @@
         <FullscreenExitOutlined role="full" @click="handleFullScreen" />
       </Tooltip>
 
+      <!-- 非全屏状态 -->
       <Tooltip v-else :title="t('component.modal.maximize')" placement="bottom">
         <FullscreenOutlined role="close" @click="handleFullScreen"
       /></Tooltip>
@@ -61,14 +63,15 @@ export default defineComponent({
         },
       ];
     });
-
+    // 点击关闭按钮
     function handleCancel(e) {
       emit('cancel', e);
     }
-
+    // 点击全屏按钮
     function handleFullScreen(e) {
       e?.stopPropagation();
       e?.preventDefault();
+      // 分发全屏事件
       emit('fullscreen');
     }
 

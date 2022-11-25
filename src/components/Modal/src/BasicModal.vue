@@ -17,7 +17,11 @@
         :normal="getMergeProps.normal"
         :helpProps="helpProps"
         @dblclick="handleTitleDbClick"
-      />
+      >
+        <template #help-icon>
+          <slot name="help-icon"></slot>
+        </template>
+      </ModalHeader>
     </template>
 
     <template #footer v-if="!$slots.footer">
@@ -48,6 +52,7 @@
       <slot></slot>
     </ModalWrapper>
 
+    <!-- modal支持的插槽（除了默认插槽） -->
     <template
       #[item]="data"
       v-for="item in Object.keys(omit($slots, 'default'))"
@@ -112,7 +117,7 @@ export default defineComponent({
         });
       },
     };
-
+    // 获取组件实例
     const instance = getCurrentInstance();
     if (instance) {
       emit('register', modalMethods, instance.uid);
@@ -167,7 +172,6 @@ export default defineComponent({
       return unref(getProps).height;
     });
 
-    // ******
     watchEffect(() => {
       visibleRef.value = !!props.visible;
       fullScreenRef.value = !!props.defaultFullscreen;
@@ -195,12 +199,15 @@ export default defineComponent({
       e?.stopPropagation();
       // 过滤自定义关闭按钮的空白区域
       if (e.target?.classList?.contains(prefixCls + '-close--custom')) return;
+      // 有传递关闭弹窗的回调
       if (props.closeFunc && isFunction(props.closeFunc)) {
+        // 回调函数的返回值来判断是否关闭弹窗
         const isClose = await props.closeFunc();
         visibleRef.value = !isClose;
         return;
       }
 
+      // 没有传递关闭弹窗的回调
       visibleRef.value = false;
       emit('cancel', e);
     }
@@ -210,6 +217,7 @@ export default defineComponent({
      */
     function setModalProps(props) {
       // Keep the last setModalProps
+      // 深度合并
       propsRef.value = deepMerge(unref(propsRef) || {}, props);
       if (Reflect.has(props, 'visible')) {
         visibleRef.value = !!props.visible;

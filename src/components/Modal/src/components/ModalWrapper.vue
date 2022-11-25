@@ -30,7 +30,7 @@ import { useMutationObserver } from '@vueuse/core';
 
 const props = {
   loading: { type: Boolean },
-  useWrapper: { type: Boolean, default: true },
+  useWrapper: { type: Boolean, default: false },
   modalHeaderHeight: { type: Number, default: 57 },
   modalFooterHeight: { type: Number, default: 74 },
   minHeight: { type: Number, default: 200 },
@@ -73,7 +73,7 @@ export default defineComponent({
     createModalContext({
       redoModalHeight: setModalHeight,
     });
-
+    // 获取弹窗body容器的样式
     const spinStyle = computed(() => {
       return {
         minHeight: `${props.minHeight}px`,
@@ -115,6 +115,7 @@ export default defineComponent({
         wrapperRefDom?.scrollTo?.(0);
       });
     }
+    console.log(props, 111);
 
     async function setModalHeight() {
       // 解决在弹窗关闭的时候监听还存在,导致再次打开弹窗没有高度

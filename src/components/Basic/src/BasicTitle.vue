@@ -2,17 +2,18 @@
   <span :class="getClass">
     <slot></slot>
     <BasicHelp
-      :class="`${prefixCls}-help`"
       v-if="helpMessage"
+      :class="`${prefixCls}-help`"
       :text="helpMessage"
       v-bind="helpProps"
-    />
+    >
+      <slot name="help-icon"></slot>
+    </BasicHelp>
   </span>
 </template>
 <script setup>
 import { useSlots, computed } from 'vue';
 import BasicHelp from './BasicHelp.vue';
-
 const props = defineProps({
   /**
    * 帮助文本或列表
@@ -32,7 +33,7 @@ const props = defineProps({
    * @default: false
    */
   normal: { type: Boolean, default: false },
-  // 帮助组件props
+  // 帮助组件的props, 相当于basicHelpProps
   helpProps: { type: Object },
 });
 
